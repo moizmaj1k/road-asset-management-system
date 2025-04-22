@@ -1,4 +1,3 @@
-```markdown
 # Road Asset Management System - Git Workflow
 
 ## 1. Pull the Latest Changes from `main`
