@@ -16,6 +16,11 @@ const routes = [
     component: () => import("./Pages/Dashboard/Dashboard.vue"),
   },
   {
+    path: "/admin-tools",
+    name: "AdminTools",
+    component: () => import("./Pages/AdminTools/AdminTools.vue"),
+  },
+  {
     path: "/logout",
     name: "Logout",
     component: () => import("./components/Logout.vue"),
