@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LandingPage from "./components/LandingPage.vue"; // this MUST come before it's used
 import Dashboard from "./Pages/Dashboard/Dashboard.vue";
-import Logout from "./components/Logout.vue";
+import Logout from "./components/Login.vue";
 
 const routes = [
   {
@@ -21,10 +21,15 @@ const routes = [
     component: () => import("./Pages/AdminTools/AdminTools.vue"),
   },
   {
-    path: "/logout",
-    name: "Logout",
-    component: () => import("./components/Logout.vue"),
+    path: "/login",
+    name: "Login",
+    component: () => import("./components/Login.vue"),
   },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: () => import("./components/Signup.vue"),
+  }
 ];
 
 const router = createRouter({

@@ -23,8 +23,8 @@
           </div>
 
           <div class="hidden md:flex p-2 items-center">
-            <router-link to="/logout" class="ml-4 px-4 py-2 bg-blue-800 hover:bg-blue-700 text-white font-semibold rounded transition">
-              Logout
+            <router-link to="/login" class="ml-4 px-4 py-2 bg-blue-800 hover:bg-blue-700 text-white font-semibold rounded transition">
+              Login
             </router-link>
           </div>
         </div>

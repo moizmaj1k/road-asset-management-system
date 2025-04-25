@@ -9,7 +9,7 @@
       </form>
       <p class="signup-prompt">
         Don't have an account?
-        <router-link to="/register">Sign Up</router-link>
+        <router-link to="/signup">Sign Up</router-link>
       </p>
     </div>
   </div>
