@@ -3,6 +3,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import LandingPage from "./components/LandingPage.vue"; // this MUST come before it's used
 import Dashboard from "./Pages/Dashboard/Dashboard.vue";
 import Logout from "./components/Login.vue";
+import Logout from "./components/Logout.vue";
+import AdminTools from "./Pages/AdminTools/AdminTools.vue";
+import Add from "./Pages/AdminTools/Add.vue";
+import Edit from "./Pages/AdminTools/Edit.vue";
 
 const routes = [
   {
@@ -17,8 +21,12 @@ const routes = [
   },
   {
     path: "/admin-tools",
-    name: "AdminTools",
-    component: () => import("./Pages/AdminTools/AdminTools.vue"),
+    component: AdminTools,
+    children: [
+      { path: "", redirect: "/admin-tools/add" },
+      { path: "add", name: "AdminToolsAdd", component: Add },
+      { path: "edit", name: "AdminToolsEdit", component: Edit },
+    ],
   },
   {
     path: "/login",
@@ -29,7 +37,7 @@ const routes = [
     path: "/signup",
     name: "Signup",
     component: () => import("./components/Signup.vue"),
-  }
+  },
 ];
 
 const router = createRouter({
