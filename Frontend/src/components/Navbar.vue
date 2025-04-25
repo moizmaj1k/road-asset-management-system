@@ -57,7 +57,7 @@ const routeClass = computed(() => {
   left: 0;
   width: 100%;
   z-index: 50;
-  backdrop-filter: blur(12px); /* equivalent to backdrop-blur-md */
+  /* backdrop-filter: blur(12px);  equivalent to backdrop-blur-md */
   background-color: rgba(28, 32, 12, 0.3); /* bg-[#1c200c]/50 */
 }
 
