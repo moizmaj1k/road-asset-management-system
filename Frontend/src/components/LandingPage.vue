@@ -8,10 +8,10 @@
         </video>
 
         <!-- Overlay div -->
-        <div class="overlay-content">
+        <!-- <div class="overlay-content">
             <h1>This is an overlay</h1>
             <button @click="handleClick">Click Me</button>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -27,7 +27,7 @@ function handleClick() {
 .video-container {
     position: relative;
     width: 100%;
-    height: 57.5rem;
+    height: 57.45rem;
     overflow: hidden;
 }
 

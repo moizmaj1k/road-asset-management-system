@@ -6,16 +6,16 @@
         <div class="flex items-end justify-end h-16">
           <div class="flex-shrink-0 p-4">
             <router-link to="/" class="text-3xl font-semibold hover:text-gray-200 transition">
-              Rams Dashboard
+              RAMS Dashboard
             </router-link>
           </div>
           
           <div class="hidden md:flex flex-1 mb-1 justify-center space-x-6 font-semi text-2xl">
             <router-link to="/dashboard" class="font-medium transition duration-300 px-3 py-2 border-b-2 border-transparent hover:border-white">
-              Dashboard
+              Dashboard <li class="pi pi-user ml-1"></li>
             </router-link>
             <router-link to="/admin-tools" class="font-medium transition duration-300 px-3 py-2 border-b-2 border-transparent hover:border-white">
-              Admin Tools
+              Admin Tools <li class="pi pi-wrench ml-1"></li>
             </router-link>
             <!-- <router-link to="/contact" class="font-medium transition duration-300 px-3 py-2 border-b-2 border-transparent hover:border-white">
               Contact
@@ -24,7 +24,7 @@
 
           <div class="hidden md:flex p-2 items-center">
             <router-link to="/login" class="ml-4 px-4 py-2 bg-blue-800 hover:bg-blue-700 text-white font-semibold rounded transition">
-              Login
+              Login <li class="pi pi-user-plus ml-2"></li>
             </router-link>
           </div>
         </div>
@@ -40,6 +40,7 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
+import 'primeicons/primeicons.css'
 const route = useRoute();
 
 // Define dynamic class based on the current route
@@ -71,7 +72,7 @@ const routeClass = computed(() => {
 }
 
 .custom-font {
-   font-family: 'MyFont';
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 }
 .navbar {
