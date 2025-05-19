@@ -3,9 +3,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import LandingPage from "./components/LandingPage.vue"; // this MUST come before it's used
 import Dashboard from "./Pages/Dashboard/Dashboard.vue";
 import Logout from "./components/Login.vue";
-import AdminTools from './Pages/AdminTools/AdminTools.vue';
-import Add from './Pages/AdminTools/Add.vue';
-import Edit from './Pages/AdminTools/Edit.vue';
+import AdminTools from "./Pages/AdminTools/AdminTools.vue";
+import Add from "./Pages/AdminTools/Add.vue";
+import Edit from "./Pages/AdminTools/Edit.vue";
+
+
 
 const routes = [
   {
