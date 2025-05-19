@@ -7,6 +7,8 @@ import AdminTools from "./Pages/AdminTools/AdminTools.vue";
 import Add from "./Pages/AdminTools/Add.vue";
 import Edit from "./Pages/AdminTools/Edit.vue";
 
+
+
 const routes = [
   {
     path: "/",
@@ -19,23 +21,18 @@ const routes = [
     component: () => import("./Pages/Dashboard/Dashboard.vue"),
   },
   {
-    path: "/admin-tools",
+    path: '/admin-tools',
     component: AdminTools,
     children: [
-      { path: "", redirect: "/admin-tools/add" },
-      { path: "add", name: "AdminToolsAdd", component: Add },
-      { path: "edit", name: "AdminToolsEdit", component: Edit },
-    ],
+      { path: '', redirect: '/admin-tools/add' },
+      { path: 'add',  name: 'AdminToolsAdd',  component: Add },
+      { path: 'edit', name: 'AdminToolsEdit', component: Edit },
+    ]
   },
   {
-    path: "/login",
-    name: "Login",
+    path: "/logout",
+    name: "Logout",
     component: () => import("./components/Login.vue"),
-  },
-  {
-    path: "/signup",
-    name: "Signup",
-    component: () => import("./components/Signup.vue"),
   },
 ];
 
@@ -45,3 +42,4 @@ const router = createRouter({
 });
 
 export default router;
+
