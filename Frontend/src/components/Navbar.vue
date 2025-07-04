@@ -17,9 +17,9 @@
             <router-link to="/admin-tools" class="font-medium transition duration-300 px-3 py-2 border-b-2 border-transparent hover:border-white">
               Admin Tools <li class="pi pi-wrench ml-1"></li>
             </router-link>
-            <!-- <router-link to="/contact" class="font-medium transition duration-300 px-3 py-2 border-b-2 border-transparent hover:border-white">
-              Contact
-            </router-link> -->
+            <router-link to="/Editdata" class="font-medium transition duration-300 px-3 py-2 border-b-2 border-transparent hover:border-white">
+              Edit Data <li class="pi pi-pencil ml-1"></li>
+            </router-link> 
           </div>
 
           <div class="hidden md:flex p-2 items-center">

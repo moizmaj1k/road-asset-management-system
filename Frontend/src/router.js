@@ -18,7 +18,12 @@ const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: () => import("./Pages/Dashboard/Dashboard.vue"),
+    component: () => import("./Pages/Dashboard/Dashboard1.vue"),
+  },
+  {
+    path: "/Editdata",
+    name: "EditData",
+    component: () => import("./Pages/EditData/Edit-Data.vue"),
   },
   {
     path: '/admin-tools',
