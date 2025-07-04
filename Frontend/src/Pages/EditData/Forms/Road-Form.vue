@@ -93,12 +93,49 @@
             <input id="usability" type="text" v-model="form.usability" />
           </div>
           <div class="form-group">
-            <label for="medianType">Median Type</label>
-            <input id="medianType" type="text" v-model="form.medianType" />
+            <label for="startLat">Start lat</label>
+            <input id="startLat" type="number" v-model="form.startLat" />
           </div>
           <div class="form-group">
-            <label for="medianType">Median Type</label>
-            <input id="medianType" type="text" v-model="form.medianType" />
+            <label for="startLon">Start lon</label>
+            <input id="startLon" type="number" v-model="form.startLon" />
+          </div>
+          <div class="form-group">
+            <label for="endLat">End lat</label>
+            <input id="endLat" type="number" v-model="form.endLat" />
+          </div>
+          <div class="form-group">
+            <label for="endLon">End lon</label>
+            <input id="endLon" type="number" v-model="form.endLon" />
+          </div>
+          <div class="form-group">
+            <label for="annualTraffic">Annual daily traffic</label>
+            <input id="annualTraffic" type="number" v-model="form.annualTraffic" />
+          </div>
+          <div class="form-group">
+            <label for="designSpeed">Design speed</label>
+            <input id="designSpeed" type="number" v-model="form.designSpeed" />
+          </div>
+          <div class="form-group">
+            <label for="administrativeJurisdiction">Administrative jurisdiction</label>
+            <input id="administrativeJurisdiction" type="text" v-model="form.administrativeJurisdiction" />
+          </div>
+          <div class="form-group">
+            <label for="feedingPopulation">Feeding Population</label>
+            <input id="feedingPopulation" type="number" v-model="form.feedingPopulation" />
+          </div>
+          <div class="form-group">
+            <label for="yearLastRepaired">Year last repaired</label>
+            <input id="yearLastRepaired" type="number" v-model="form.yearLastRepaired" />
+          </div>
+          <div class="form-group">
+            <label for="repairType">Repair Type</label>
+            <input id="repairType" type="text" v-model="form.repairType" />
+          </div>
+         
+          <div class="form-group">
+            <label for="feedingPopulation">Feeding Population</label>
+            <input id="feedingPopulation" type="number" v-model="form.feedingPopulation" />
           </div>
           <!-- Add more field pairs here if needed -->
         </div>
@@ -144,7 +181,7 @@
 
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr); /* was 2 columns, now 3 */
   gap: 1rem 1.5rem;
 }
 
