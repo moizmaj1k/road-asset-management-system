@@ -214,7 +214,7 @@ const loadGoogleMapsApi = () => {
       resolve();
     } else {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDeND9CwwzibXf188hE4aQtsOh3PXkl1OM`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=`;
       script.async = true;
       script.onload = resolve;
       document.head.appendChild(script);
