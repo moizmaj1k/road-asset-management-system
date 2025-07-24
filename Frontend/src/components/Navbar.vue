@@ -20,6 +20,9 @@
             <router-link to="/Editdata" class="font-medium transition duration-300 px-3 py-2 border-b-2 border-transparent hover:border-white">
               Edit Data <li class="pi pi-pencil ml-1"></li>
             </router-link> 
+            <router-link to="/TrafficData" class="font-medium transition duration-300 px-3 py-2 border-b-2 border-transparent hover:border-white">
+              Traffic Data <li class="pi pi-pencil ml-1"></li>
+            </router-link> 
           </div>
 
           <div class="hidden md:flex p-2 items-center">
@@ -79,7 +82,7 @@ const routeClass = computed(() => {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 50;
+  z-index: 1000;
   backdrop-filter: blur(12px);
   background-color: rgb(19, 23, 73); /* dark semi-opaque */
   color: rgb(255, 255, 255);

@@ -1,5 +1,5 @@
 <template>
-   
+   <div class="landing-wrapper">
     <div class="video-container">
         <!-- Background video -->
         <video autoplay muted loop playsinline class="bg-video">
@@ -13,6 +13,7 @@
             <button @click="handleClick">Click Me</button>
         </div> -->
     </div>
+</div>
 </template>
 
 <script setup>
@@ -24,6 +25,9 @@ function handleClick() {
 </script>
 
 <style scoped>
+.landing-wrapper {
+  padding-top: 7vh; /* Matches navbar height */
+}
 .video-container {
     position: relative;
     width: 100%;
@@ -38,7 +42,7 @@ function handleClick() {
     min-width: 100%;
     min-height: 100%;
     object-fit: cover;
-    z-index: 0;
+    z-index: -1;
 }
 
 .overlay-content {
