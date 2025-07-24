@@ -29,6 +29,7 @@
   { key: 'Interchange', label: 'Interchange' },
   { key: 'PatchCondition', label: 'Patch Condition' },
   { key: 'CommercialEntity', label: 'Commercial Entity' },
+  { key: 'RoadCrossing', label: 'Road Crossing' },
   { key: 'RetainingWall', label: 'Retaining Wall' },
   { key: 'DikeCurbStone', label: 'Dike & Curb Stone' },
   { key: 'GuardRail', label: 'Guard Rail' },
@@ -53,7 +54,7 @@
       DikeCurbStone: defineAsyncComponent(() => import('../EditData/Forms/DikeCurbStone-Form.vue')),
       GuardRail: defineAsyncComponent(() => import('../EditData/Forms/GuardRail-Form.vue')),
       Tunnel: defineAsyncComponent(() => import('../EditData/Forms/Tunnel-Form.vue')),
-
+      RoadCrossing: defineAsyncComponent(() => import('../EditData/Forms/RoadCrossing-Form.vue')),
 
   }
   
@@ -68,8 +69,8 @@ const selectFeature = (key) => {
 .features {
   display: flex;
   justify-content: space-between; /* Distribute buttons evenly */
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  font-size: 15px;
+  gap: 0.2rem;
   margin: 1rem 0;
   padding: 0.5rem;
 }

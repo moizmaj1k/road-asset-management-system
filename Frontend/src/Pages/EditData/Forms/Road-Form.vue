@@ -146,9 +146,21 @@
       </div>
   
       <!-- Right: OL Map -->
-      <div class="map-container">
-        <OLMap />
-      </div>
+      <div class="map-side">
+  <div class="map-container">
+    <OLMap />
+  </div>
+  <div class="image-section">
+    <h3>Image</h3>
+    <h3>Image</h3>
+    <h3>Image</h3>
+    <h3>Image</h3>
+
+    <h3>Image</h3>
+    <h3>Image</h3>
+    <!-- You can place an <img> or anything else here -->
+  </div>
+</div>
     </div>
   </template>
   
@@ -223,12 +235,20 @@ button:hover {
     display: flex;
     
 }
+.map-side {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
 .map-container {
-    width: 50%;
-    height: 100%;
-    position: relative;
-    
-        height: 100vh;
-  }
+  height: 40vh; /* Leave some space for the image */
+}
+
+.image-section {
+  padding: 1rem;
+  background: #f8f8f8;
+  border-top: 1px solid #ccc;
+}
   </style>
   

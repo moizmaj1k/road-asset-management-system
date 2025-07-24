@@ -245,7 +245,12 @@ const CenterMap = () => {
   z-index: 1000;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+.tool-box > * {
+  flex: 1;              /* Equal height */
+  display: flex;        /* Center content */
+  align-items: center;
+  justify-content: center;
+}
 .popup {
   position: absolute;
   top: 10rem;

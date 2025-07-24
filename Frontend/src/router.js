@@ -18,7 +18,7 @@ const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: () => import("./Pages/Dashboard/Dashboard1.vue"),
+    component: () => import("./Pages/Dashboard/Dashboard.vue"),
   },
   {
     path: "/Editdata",
@@ -26,13 +26,18 @@ const routes = [
     component: () => import("./Pages/EditData/Edit-Data.vue"),
   },
   {
-    path: '/admin-tools',
+    path: "/TrafficData",
+    name: "TrafficData",
+    component: () => import("./Pages/TrafficData/Traffic-Data.vue"),
+  },
+  {
+    path: "/admin-tools",
     component: AdminTools,
     children: [
-      { path: '', redirect: '/admin-tools/add' },
-      { path: 'add',  name: 'AdminToolsAdd',  component: Add },
-      { path: 'edit', name: 'AdminToolsEdit', component: Edit },
-    ]
+      { path: "", redirect: "/admin-tools/add" },
+      { path: "add", name: "AdminToolsAdd", component: Add },
+      { path: "edit", name: "AdminToolsEdit", component: Edit },
+    ],
   },
   {
     path: "/logout",

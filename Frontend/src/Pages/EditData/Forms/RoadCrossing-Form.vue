@@ -2,7 +2,7 @@
   <div class="layout">
     <!-- Left: Form (60%)) -->
     <div class="form-container">
-      <h2 class="text-center mb-4 text-2xl">Guard Rail Section Detail</h2>
+      <h2 class="text-center mb-4 text-2xl">Road Crossing Section Detail</h2>
 
       <div class="form-grid">
         <!-- District -->
@@ -17,6 +17,7 @@
         </div>
 
         <!-- Road -->
+        <!-- Road -->
         <div class="form-group">
           <label for="road">Select Road</label>
           <select id="road" v-model="form.road">
@@ -27,38 +28,62 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="GuardRailType">Type of Guard Rail</label>
-          <select id="GuardRailType" v-model="form.GuardRailType">
-            <option disabled value="">-- Choose Guard Rail Type --</option>
-            <option>W-Beam</option>
-            <option>Steel Pipes</option>
-            <option>Wooden</option>
+          <label for="constructionDate">Year of Construction</label>
+          <input
+            id="constructionDate"
+            type="date"
+            v-model="form.constructionDate"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="RoadCrossingType">Road Crossing Type</label>
+          <select id="RoadCrossingType" v-model="form.RoadCrossingType">
+            <option disabled value="">-- Choose Type --</option>
+            <option>Underpass</option>
+            <option>Subway</option>
+            <option>Cattle Creep</option>
+          </select>
+        </div>
+         <div class="form-group">
+          <label for="HeadwallType">Type of Headwall</label>
+          <select id="HeadwallType" v-model="form.HeadwallType">
+            <option disabled value="">-- Choose Type --</option>
+            <option>Stone</option>
+            <option>Brick</option>
+            <option>Concrete</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="GuardRailSide">Guard Rail Side</label>
-          <select id="GuardRailSide" v-model="form.GuardRailSide">
-            <option disabled value="">-- Choose Guard Rail Side --</option>
-            <option>Left Side</option>
-            <option>Right Side</option>
-            <option>Both Side</option>
-            <option>Median</option>
-            <option>Median and both Sides</option>
-          </select>
-        </div>
-
+            <label for="RoadcrossingLength">Length</label>
+            <input id="RoadcrossingLength" type="number" v-model="form.RoadcrossingLength" />
+          </div>
+          <div class="form-group">
+            <label for="RoadcrossingWidth">Width</label>
+            <input id="RoadcrossingWidth" type="number" v-model="form.RoadcrossingWidth" />
+          </div>
+          <div class="form-group">
+            <label for="RoadcrossingHeight">Height</label>
+            <input id="RoadcrossingHeight" type="number" v-model="form.RoadcrossingHeight" />
+          </div>
+          <div class="form-group">
+            <label for="Roadcrossingcarriageway">Width Carriageway/Track (M)</label>
+            <input id="Roadcrossingcarriageway" type="number" v-model="form.Roadcrossingcarriageway" />
+          </div>
+          
         <div class="form-group">
-          <label for="GuardRailCondition">Condition</label>
-          <select id="GuardRailCondition" v-model="form.GuardRailCondition">
+          <label for="PatchCondition">Condition</label>
+          <select id="PatchCondition" v-model="form.PatchCondition">
             <option disabled value="">-- Choose Condition --</option>
             <option>Poor</option>
             <option>Fair</option>
             <option>Good</option>
           </select>
         </div>
+
         <div class="form-row">
           <div class="form-group flex-half">
-            <label for="startLat">Start lat</label>
+            <label for="startLat ">Start lat</label>
             <input id="startLat" type="number" v-model="form.startLat" />
           </div>
           <div class="form-group flex-half">
@@ -66,19 +91,33 @@
             <input id="startLon" type="number" v-model="form.startLon" />
           </div>
         </div>
+           <div class="form-group toggle-group">
+            <label class="toggle-label">Is Road Crossing in Skew?</label>
+            <label class="switch">
+              <input type="checkbox" v-model="form.isRoadCrossingInSkew" />
+              <span class="slider"></span>
+            </label>
+          
+          </div>
+          
+           <div class="form-group toggle-group">
+            <label class="toggle-label">Is there drainage inside this crossing?</label>
+            <label class="switch">
+              <input type="checkbox" v-model="form.isDrainageInsideCrossing" />
+              <span class="slider"></span>
+            </label>
+          
+          </div>
+          
+           <div class="form-group toggle-group">
+            <label class="toggle-label">Is There lighting system?</label>
+            <label class="switch">
+              <input type="checkbox" v-model="form.isLightingSystem" />
+              <span class="slider"></span>
+            </label>
+          
+          </div>
         <!-- End Lat & End Lon side-by-side -->
-        <div class="form-row">
-          <div class="form-group flex-half">
-            <label for="endLat">End lat</label>
-            <input id="endLat" type="number" v-model="form.endLat" />
-          </div>
-          <div class="form-group flex-half">
-            <label for="endLon">End lon</label>
-            <input id="endLon" type="number" v-model="form.endLon" />
-          </div>
-        </div>
-
-        <!-- Form Actions -->
         <div class="form-group full-width">
           <h3 class="images-heading">Remarks</h3>
 
@@ -89,26 +128,33 @@
             placeholder="Enter remarks here..."
           ></textarea>
         </div>
-        <!-- Images Section -->
-        
       </div>
       <!-- Start RD -->
     </div>
 
-    <!-- Right: OL Map -->
     <div class="map-side">
       <div class="map-container">
         <OLMap />
       </div>
       <div class="image-section">
-        <h3>Image</h3>
-        <h3>Image</h3>
-        <h3>Image</h3>
-        <h3>Image</h3>
-
-        <h3>Image</h3>
-        <h3>Image</h3>
+        <h3 class="images-heading">Images</h3>
         <!-- You can place an <img> or anything else here -->
+        <div class="form-group full-width">
+          <div class="image-list">
+            <div v-if="imageLinks.length === 0" class="text-muted">
+              No images available
+            </div>
+            <div
+              v-else
+              class="image-item"
+              v-for="(url, index) in imageLinks"
+              :key="index"
+            >
+              <img :src="url" :alt="'Image ' + (index + 1)" />
+              <a :href="url" target="_blank">View Full</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -125,23 +171,24 @@ const form = reactive({
   width: "",
   depth: "",
   constructionDate: "",
-  drainage: "",
-  drainType: "",
-  hasCatEyes: false,
-  isDrainOpen: false,
-  DrainageCondition: "",
-  breastWallType: "",
-  DrainageSide: "",
+  culvert: "",
+  culvertType: "",
+  CulvertCondition: "",
   startLat: "",
   startLon: "",
-  endLat: "",
-  endLon: "",
-  retainingWallType: "",
-  parapetWallType: "",
-  retainingWallSide: "",
-GuardRailType: "",
-  GuardRailCondition: "",
-  GuardRailSide: "",
+  isCulvertInSkew: false,
+  numSpans: "",
+  height: "",
+  diameter: "",
+  typeofapron: "",
+  typeofwingwalls: "",
+  typeofheadwalls: "",
+  waterwayclearance: "",
+  interchangeName: "", // 👈 Add this line
+  InterchangeType: "",
+  PatchCondition: "",
+  CommercialEntityType: "",
+  RoadCrossingType: "",
 });
 const imageLinks = ref([]);
 onMounted(async () => {
@@ -296,6 +343,7 @@ input:checked + .slider::before {
 .images-heading {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 .image-list {

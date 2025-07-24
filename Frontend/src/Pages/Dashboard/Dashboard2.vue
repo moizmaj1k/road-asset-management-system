@@ -1,36 +1,36 @@
 <template>
-  <div id="map1" >
+  <div id="map1" style="position: relative; width: 100%; height: 100%">
     <ToolBox :map="map" @export-map-pdf="handleExportMapPdf" @center-map="handleCenterMap" />
-    <div id="map"></div>
+    
+    <!-- Google Map background -->
+    <div id="google-map" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;"></div>
+    
+    <!-- OpenLayers overlay -->
+    <div id="ol-map" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;"></div>
   </div>
 </template>
-
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import Map from "ol/Map";
 import View from "ol/View";
-import { FullScreen, ScaleLine, defaults as defaultControls } from "ol/control";
-import { defaults as defaultInteractions } from "ol/interaction/defaults";
-import { Tile as TileLayer } from "ol/layer";
-import OSM from "ol/source/OSM"; // Keep OSM if you might want to switch back to it
-import XYZ from "ol/source/XYZ"; // Essential for custom tile layers
-import { fromLonLat } from "ol/proj";
+import { fromLonLat, toLonLat } from "ol/proj";
+import { defaults as defaultControls } from "ol/control";
+import { defaults as defaultInteractions } from "ol/interaction";
 import ToolBox from "./Tool-box.vue";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import Feature from 'ol/Feature';
-import { LineString } from 'ol/geom';
-import { Vector as VectorLayer } from 'ol/layer';
-import { Vector as VectorSource } from 'ol/source';
-import { Stroke, Style } from 'ol/style';
-import { MultiLineString } from 'ol/geom';
-
-let map; // declare map variable
+import Feature from 'ol/Feature.js';
+import LineString from 'ol/geom/LineString.js';
+import VectorSource from 'ol/source/Vector.js'; 
+import VectorLayer from 'ol/layer/Vector.js';
+import Style from 'ol/style/Style.js';
+import Stroke from 'ol/style/Stroke.js';
+let map = null;
+let googleMap = null;
 const value= [{
   roadname: "Pakistan",
-"geometry": {
-                "type": "MultiLineString",
-                "coordinates": [
+    type:"LineString",
+   coordinates: 
                     [
                         [
                             71.99194902000005,
@@ -201,197 +201,150 @@ const value= [{
                             34.61500422100005
                         ]
                     ]
-                ]
-            },
-                
-},
-
-{roadname: "India",
+},{roadname: "India",
   coordinates: [78.9629, 20.5937],
 },{
     roadname: "China",
   coordinates: [69.3451, 30.3753],
   }]
-  
-onMounted(() => {
-  const mapEl = document.getElementById("map");
-  if (!mapEl) return;
+// Load Google Maps JS API
+const loadGoogleMapsApi = () => {
+  return new Promise((resolve) => {
+    if (window.google && window.google.maps) {
+      resolve();
+    } else {
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDeND9CwwzibXf188hE4aQtsOh3PXkl1OM`;
+      script.async = true;
+      script.onload = resolve;
+      document.head.appendChild(script);
+    }
+  });
+};
 
-  // Transform coordinates for MultiLineString
-  const transformedCoords = value[0].geometry.coordinates.map(line =>
-    line.map(coord => fromLonLat(coord))
-  );
+onMounted(async () => {
+  await loadGoogleMapsApi();
 
-  // Create Feature
-  const lineFeature = new Feature({
-    geometry: new MultiLineString(transformedCoords),
-    name: value[0].roadname,
+  const googleMapDiv = document.getElementById("google-map");
+  const olMapDiv = document.getElementById("ol-map");
+
+  // Init Google Map
+  googleMap = new window.google.maps.Map(googleMapDiv, {
+    center: { lat: 30.3753, lng: 69.3451 },
+    zoom: 6,
+    mapTypeId: "roadmap",
+    disableDefaultUI: true,
   });
 
-  // Style
-  lineFeature.setStyle(
-    new Style({
-      stroke: new Stroke({
-        color: 'red',
-        width: 6,
-      }),
-    })
-  );
-
-  // Vector layer
-  const vectorLayer = new VectorLayer({
-    source: new VectorSource({
-      features: [lineFeature],
-    }),
-  });
-
-  // 🟢 Final combined map instance (ONLY ONCE!)
+  // Init OpenLayers Map (no tile layers, just overlays)
   map = new Map({
-    target: mapEl,
-    layers: [
-      new TileLayer({
-        source: new OSM(),
-        visible: true,
-        title: "OpenStreetMap (Standard Roads)",
-      }),
-      vectorLayer // Attach vector layer to same map
-    ],
+    target: olMapDiv,
+    layers: [],
     view: new View({
-      center: fromLonLat([72.058, 34.63]),
-      zoom: 16,
+      center: fromLonLat([69.3451, 30.3753]),
+      zoom: 6,
+      enableRotation: false,
     }),
-    controls: defaultControls({ attribution: false }).extend([
-      new FullScreen(),
-      new ScaleLine(),
-    ]),
     interactions: defaultInteractions(),
+    controls: defaultControls({ attribution: false }),
   });
+
+  // Sync OL → Google
+  map.on("moveend", () => {
+    const center = toLonLat(map.getView().getCenter());
+    const zoom = map.getView().getZoom();
+    googleMap.setCenter({ lat: center[1], lng: center[0] });
+    googleMap.setZoom(Math.round(zoom));
+  });
+
+  // Sync Google → OL
+  googleMap.addListener("center_changed", () => {
+    const center = googleMap.getCenter();
+    const coords = fromLonLat([center.lng(), center.lat()]);
+    map.getView().setCenter(coords);
+  });
+
+  googleMap.addListener("zoom_changed", () => {
+    const zoom = googleMap.getZoom();
+    map.getView().setZoom(zoom);
+  });
+   const features = value.map((item) => {
+    const coords = item.coordinates.map((lonLat) => fromLonLat(lonLat));
+    console.log("Coordinates for road:", item.roadname, coords);
+    return new Feature({
+      geometry: new LineString(coords),
+      name: item.roadname,
+    });
+  });
+
+  const vectorSource = new VectorSource({
+    features,
+  });
+
+  const vectorLayer = new VectorLayer({
+    source: vectorSource,
+    style: new Style({
+      stroke: new Stroke({
+        color: '#FF0000',
+        width: 5,
+      }),
+    }),
+  });
+
+  map.addLayer(vectorLayer);
 });
 
 const handleExportMapPdf = async () => {
-  const mapElement = document.getElementById('map1');
+  const mapElement = document.getElementById("map1");
 
-  if (!mapElement) {
-    console.error("Map element not found for screenshot.");
-    return;
-  }
+  if (!mapElement) return;
 
-  // Hide OpenLayers controls temporarily to get a clean screenshot
-  const controls = mapElement.querySelectorAll('.ol-control');
-  controls.forEach(control => {
-    control.style.display = 'none';
-  });
+  // Hide OL controls
+  const controls = mapElement.querySelectorAll(".ol-control");
+  controls.forEach((c) => (c.style.display = "none"));
 
-  // Take screenshot using html2canvas
   try {
     const canvas = await html2canvas(mapElement, {
-      useCORS: true, // Important for cross-origin map tiles
-      scale: 2, // Increase scale for higher resolution screenshot
-      logging: false, // Disable html2canvas logging if not needed
+      useCORS: true,
+      scale: 2,
     });
 
-    const imgData = canvas.toDataURL('image/png'); // Get image data as PNG
-
-    // Calculate PDF dimensions based on the canvas aspect ratio
+    const imgData = canvas.toDataURL("image/png");
     const imgWidth = canvas.width;
     const imgHeight = canvas.height;
     const pdf = new jsPDF({
-      orientation: imgWidth > imgHeight ? 'l' : 'p', // Landscape if width > height, else Portrait
-      unit: 'px', // Use pixels as unit for consistency with canvas
-      format: [imgWidth, imgHeight] // Set PDF format to image dimensions
+      orientation: imgWidth > imgHeight ? "l" : "p",
+      unit: "px",
+      format: [imgWidth, imgHeight],
     });
-
-    // Add the image to the PDF
-    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-
-    // Save the PDF
-    pdf.save('map_screenshot.pdf');
-
-    console.log("Map exported to PDF successfully!");
-
-  } catch (error) {
-    console.error("Error exporting map to PDF:", error);
+    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+    pdf.save("map_screenshot.pdf");
+  } catch (err) {
+    console.error("Error exporting:", err);
   } finally {
-    // Show OpenLayers controls again
-    controls.forEach(control => {
-      control.style.display = ''; // Reset display style
-    });
+    controls.forEach((c) => (c.style.display = ""));
   }
 };
+
 const handleCenterMap = (coordinates) => {
   if (map) {
-    // Set the map view to the new center
-    map.getView().setCenter(fromLonLat(coordinates));
-    // Optional: You might want to set a specific zoom level as well
-    // map.getView().setZoom(6); 
-    console.log("Map centered to:", coordinates);
-  } else {
-    console.warn("Map object not yet initialized when Center Map was clicked.");
+    const center = fromLonLat(coordinates);
+    map.getView().setCenter(center);
+    googleMap.setCenter({ lat: coordinates[1], lng: coordinates[0] });
   }
 };
-
-// Optional: destroy map cleanly when component unmounts
-// onBeforeUnmount(() => {
-//   if (map) {
-//     map.setTarget(undefined);
-//     map = null;
-//   }
-// });
 </script>
-
 <style scoped>
-#map {
-  width: 100%;
-  height: 53.4rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  position: relative;
+#map1, #google-map, #ol-map {
+
+  min-height: 855px; /* For testing */
+}
+#google-map {
+  z-index: 0;
+}
+#ol-map {
+  z-index: 1;
+   /* So Google Map still receives mouse interactions */
 }
 
-/* Apply styles deeply to OpenLayers controls */
-::v-deep .ol-control {
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-
-::v-deep .ol-zoom {
-  top: 10px;
-  left: 10px;
-  height: 0px; /* This makes the default zoom buttons essentially invisible */
-  background: none;
-}
-
-::v-deep .ol-zoom-in,
-::v-deep .ol-zoom-out {
-  background-color: #131749;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-::v-deep .ol-zoom-in:hover,
-::v-deep .ol-zoom-out:hover {
-  background-color: #131749;
-}
-
-::v-deep .ol-full-screen {
-  top: 10px;
-  right: 2rem;
-  background-color: #2196f3;
-  color: rgb(255, 0, 0);
-  width: 10px;
-  height: 10px;
-  background: none;
-}
-::v-deep .ol-scale-line {
-  bottom: 10px;
-  left: 10px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  height: 30px;
-}
 </style>
