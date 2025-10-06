@@ -2,6 +2,7 @@
 import HelloWorld from './components/HelloWorld.vue'
 import LandingPage from './components/LandingPage.vue';
 import Navbar from './components/Navbar.vue'
+import Footer from './components/Footer.vue';
 import router from './router'
 </script>
 
@@ -10,6 +11,7 @@ import router from './router'
     
     <Navbar />
     <router-view />
+    <Footer />
   </div>
 </template>
 

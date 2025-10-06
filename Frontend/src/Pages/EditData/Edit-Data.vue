@@ -69,22 +69,26 @@ const selectFeature = (key) => {
 .features {
   display: flex;
   justify-content: space-between; /* Distribute buttons evenly */
-  font-size: 15px;
+  font-size: 13px;
   gap: 0.2rem;
   margin: 1rem 0;
+  margin-top: 2rem;
+  
   padding: 0.5rem;
 }
 
 .features button {
   flex: 1 1 auto; /* Grow and shrink equally */
   text-align: center;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.5rem;
   margin: 0 0.25rem; /* Optional: to give small spacing on left/right */
   background: #eee;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   min-width: 100px; /* Optional: ensure buttons don’t shrink too small */
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .features button.active {

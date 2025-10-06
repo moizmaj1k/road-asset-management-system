@@ -128,7 +128,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    background-color: #151748;
+    background-color: #1e24d3;
     color: white;
   }
   

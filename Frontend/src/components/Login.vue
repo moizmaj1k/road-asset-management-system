@@ -5,25 +5,59 @@
       <form @submit.prevent="handleLogin">
         <input type="email" placeholder="Email" v-model="email" required />
         <input type="password" placeholder="Password" v-model="password" required />
-        <button type="submit">Login</button>
+        <button type="submit" :disabled="loading">
+          {{ loading ? "Logging in..." : "Login" }}
+        </button>
       </form>
       <p class="signup-prompt">
         Don't have an account?
         <router-link to="/signup">Sign Up</router-link>
       </p>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
-const email = ref('');
-const password = ref('');
+const email = ref("");
+const password = ref("");
+const loading = ref(false);
+const errorMessage = ref("");
+const router = useRouter();
 
-const handleLogin = () => {
-  console.log('Logging in with:', email.value, password.value);
-  // Add actual login logic here
+const handleLogin = async () => {
+  loading.value = true;
+  errorMessage.value = "";
+
+  try {
+    const response = await axios.post("http://localhost:8000/api/auth/login/", {
+      email: email.value,
+      password: password.value,
+    });
+    console.log("Login successful:", response.data);
+
+
+    // Store token (assuming DRF SimpleJWT or similar)
+    localStorage.setItem("access_token", response.data.access);
+    localStorage.setItem("refresh_token", response.data.refresh);
+
+    // Redirect after login
+    router.push("/dashboard");
+  } catch (error) {
+    console.error("Login failed:", error);
+    if (error.response && error.response.data) {
+      errorMessage.value =
+        error.response.data.detail || "Invalid email or password";
+    } else {
+      errorMessage.value = "Something went wrong. Please try again.";
+    }
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
@@ -34,7 +68,7 @@ const handleLogin = () => {
   justify-content: center;
   height: 93vh;
   background: linear-gradient(135deg, #4566a5, #2a5298);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .login-box {
@@ -98,5 +132,12 @@ button:hover {
   color: #fff;
   font-weight: bold;
   text-decoration: underline;
+}
+
+.error {
+  margin-top: 1rem;
+  color: #ffcccc;
+  text-align: center;
+  font-size: 0.9rem;
 }
 </style>

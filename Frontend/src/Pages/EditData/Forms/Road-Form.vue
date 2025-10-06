@@ -189,6 +189,7 @@
   box-sizing: border-box;
   overflow-y: auto;
   border-right: 1px solid #ccc;
+  margin-bottom: 2rem;
 }
 
 .form-grid {
@@ -243,6 +244,7 @@ button:hover {
 
 .map-container {
   height: 40vh; /* Leave some space for the image */
+  z-index: 0;
 }
 
 .image-section {

@@ -4,10 +4,29 @@
   </div>
   <!-- Popup -->
   <div v-if="showAssets" class="popup">
+    <button
+  @click="showAssets = false"
+  class="close-btn"
+>
+  ✕
+</button>
+    <div class="filter-sidebar">
     <ul>
+
+         <li class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+          <input  type="checkbox"
+            v-model="allSelected"
+            @change="selectAllAssets" />
+          <span>All Assets</span>
+        </div>
+      </li>
+      <!-- Filter of bridge -->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input  type="checkbox"
+            v-model="assetFilters.bridges"
+            :disabled="allSelected" />
           <span>Bridge</span>
         </div>
 
@@ -130,9 +149,12 @@
         </div>
       </div>
 
+      <!-- Culvert Filter-->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.culverts"
+            :disabled="allSelected" />
           <span class="">Culvert</span>
         </div>
         <i
@@ -236,9 +258,13 @@
         </div>
       </div>
 
+      <!-- Filter of Sign Board -->
+
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.sign_boards"
+            :disabled="allSelected" />
           <span class="">Sign Board</span>
         </div>
         <i
@@ -248,7 +274,7 @@
           "
         ></i>
       </li>
-      <!-- Filter of Sign Board -->
+      
       <div v-if="toggleSignboardFilterDropdown" class="list-container">
         <div class="mt-1 text-center font-medium">Type of Sign Board</div>
         <div class="flex justify-center mt-1">
@@ -276,9 +302,12 @@
         </div>
       </div>
 
+      <!-- Filter for Toll plaza -->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.tolls"
+            :disabled="allSelected"/>
           <span class="">Toll Plaza</span>
         </div>
         <i
@@ -320,9 +349,12 @@
         </div>
       </div>
 
+      <!-- Filter for Light pole -->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.light_poles"
+            :disabled="allSelected"/>
           <span class="">Light pole</span>
         </div>
         <i
@@ -360,9 +392,12 @@
         </div>
       </div>
 
+      <!-- Filter for Interchange -->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.interchanges"
+            :disabled="allSelected"/>
           <span class="">Interchange</span>
         </div>
         <i
@@ -386,9 +421,12 @@
         </div>
       </div>
 
+      <!-- Filter for Patch Condition -->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.patch_conditions"
+            :disabled="allSelected"/>
           <span class="">Patch Condition</span>
         </div>
         <i
@@ -418,9 +456,12 @@
         </div>
       </div>
 
+      <!-- Filter of Commercial Entity -->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.commercial_entities"
+            :disabled="allSelected"/>
           <span class="">Commercial Entity</span>
         </div>
         <i
@@ -452,9 +493,12 @@
         </div>
       </div>
 
+      <!-- Filter for Road Crossing -->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.road_crossings"
+            :disabled="allSelected"/>
           <span class="">Road Crossing</span>
         </div>
         <i
@@ -522,9 +566,12 @@
         </div>
       </div>
 
+      <!-- Filter for Drainage -->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.drainages"
+            :disabled="allSelected"/>
           <span class="">Drainage</span>
         </div>
         <i
@@ -604,9 +651,12 @@
         </div>
       </div>
 
+      <!-- Filter of Retaining Wall-->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.retaining_walls"
+            :disabled="allSelected"/>
           <span class="">Retaining Wall</span>
         </div>
         <i
@@ -655,9 +705,12 @@
           </select>
         </div>
       </div>
+
+      <!-- Filter of Dyke and curb stone-->
+
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox" v-model="assetFilters.dike_curb_stones" :disabled="allSelected"/>
           <span class="">Dyke & Curb Stone </span>
         </div>
         <i
@@ -667,7 +720,6 @@
           "
         ></i>
       </li>
-      <!-- Filter of Dyke and curb stone-->
       <div v-if="toggleDykeandcurbstoneDropdown" class="list-container">
         <div class="mt-2 text-center font-medium">Type of Dyke Curb Stone</div>
         <div class="flex justify-center mt-1">
@@ -695,9 +747,12 @@
         </div>
       </div>
 
+      <!-- Filter of Guard Rail-->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.guard_rails"
+            :disabled="allSelected"/>
           <span class="">Guard Rail </span>
         </div>
         <i
@@ -733,9 +788,12 @@
         </div>
       </div>
 
+      <!-- Filter of Tunnel-->
       <li class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox"
+            v-model="assetFilters.tunnels"
+            :disabled="allSelected"/>
           <span class="">Tunnel</span>
         </div>
         <i
@@ -811,8 +869,8 @@
         </div>
       </div>
 
-      <div @click="FilterRoadData()"
-        class="text-center bg-blue-700"
+      <div @click="FilterAssetData()"
+        class="text-center "
         style="
           height: 40px;
           position: sticky;
@@ -823,18 +881,21 @@
           border-radius: 10px;
           margin-left: 3rem;
           padding-top: 7px;
+          background-color: rgb(21, 68, 62);
         "
       >
         Apply Filters
       </div>
     </ul>
   </div>
+  </div>
 </template>
 
 <script setup>
 import { Button } from "primevue";
 import { defineEmits } from "vue";
-import { computed, ref } from "vue";
+import { computed, ref,reactive,watch } from "vue";
+
 
 const showAssets = ref(false);
 const toggleBridgeFilterDropdown = ref(false);
@@ -853,6 +914,7 @@ const toggleGuardrailDropdown = ref(false);
 const toggleTunnelDropdown = ref(false);
 const BridgeNumberofspansCount = ref(0);
 const BridgeSelectedConstructionType = ref("");
+
 const bridgeConstructionType = ref([
   "All",
   "RCC",
@@ -1090,6 +1152,11 @@ const TunnelPortalType = [
   "With Box cut",
   "Without Box cut"
 ];
+
+
+// Optional: Watch for manual unchecking
+
+
 const TunnelTubes = ref(0);
 const incrementTunnelTubes = () => {
   if (TunnelTubes.value >= 8) {
@@ -1139,84 +1206,78 @@ const DecrementCulverts = () => {
   CulvertNumberofcellsCount.value--;
 };
 
-const emit = defineEmits(["clicked"]);
+const emit = defineEmits(["clicked", "filtered-assets"]);
 
-const FilterRoadData = () => {
-  const payload = {
-    // Bridges
-    BridgeNumberofspansCount: BridgeNumberofspansCount.value,
-    BridgeSelectedConstructionType: BridgeSelectedConstructionType.value,
-    BridgeSelectedParapetType: BridgeSelectedParapetType.value,
-    BridgeSelectedAbutmentPierMaterial: BridgeSelectedAbutmentPierMaterial.value,
-    BridgeSelectedFunctionalType: BridgeSelectedFunctionalType.value,
-    BridgeSelectedFondationType: BridgeSelectedFondationType.value,
+import axios from "axios";
+const allSelected = ref(false);
+const assetFilters = reactive({
+  bridges: false,
+  culverts: false,
+  sign_boards: false,
+  tolls: false,
+  light_poles: false,
+  interchanges: false,
+  patch_conditions: false,
+  commercial_entities: false,
+  road_crossings: false,
+  drainages: false,
+  retaining_walls: false,
+  dike_curb_stones: false,
+  guard_rails: false,
+  tunnels: false,
 
-    // Culverts
-    CulvertNumberofcellsCount: CulvertNumberofcellsCount.value,
-    CulvertSelectedConstructionType: CulvertSelectedConstructionType.value,
-    CulvertSelectedApronType: CulvertSelectedApronType.value,
-    CulvertSelectedWingwallType: CulvertSelectedWingwallType.value,
-    CulvertSelectedHeadwallsType: CulvertSelectedHeadwallsType.value,
-    CulvertSelectedWaterwayType: CulvertSelectedWaterwayType.value,
+  // Add more as needed
+});
+watch(assetFilters, (newVal) => {
+  allSelected.value = Object.values(newVal).every(Boolean);
+  console.log("Asset filters updated:", newVal);
+  console.log("All selected status:", allSelected.value);
+}, { deep: true });
 
-    // Signboard
-    SignboardSelectedType: SignboardSelectedType.value,
-    SignboardSelectedSide: SignboardSelectedSide.value,
+function selectAllAssets() {
+  Object.keys(assetFilters).forEach((key) => {
+    assetFilters[key] = allSelected.value;
+  });
+}
 
-    // Toll Plaza
-    TollSelectedType: TollSelectedType.value,
-    TollNumberofBooths: TollNumberofBooths.value,
+// Build CSV string for API
+function getSelectedAssets() {
+  return Object.keys(assetFilters)
+    .filter((key) => assetFilters[key])
+    .join(",");
+}
 
-    // Light Poles
-    LightpoleSelectedType: LightpoleSelectedType.value,
-    LightpoleSelectedSide: LightpoleSelectedSide.value,
+// Fetch filtered data
+async function FilterAssetData() {
+  const assetsParam = getSelectedAssets();
+  console.log("Sending filters:", assetsParam);
 
-    // Interchange
-    InterchangeSelectedType: InterchangeSelectedType.value,
+  const tokenData = localStorage.getItem("access_token");
+  console.log("Token data:", tokenData);
+  const token = tokenData?.access || tokenData; // in case you store as object
 
-    // Patch Condition
-    PatchConditionSelectedQuality: PatchConditionSelectedQuality.value,
+  try {
+    const res = await axios.get(
+      "http://localhost:8000/api/assets/universal-filter/",
+      {
+        params: {
+          districts: "all",
+          assets: assetsParam
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    console.log("Filtered data:", res.data);
 
-    // Commercial Entity
-    CommericalEntitySelectedType: CommericalEntitySelectedType.value,
+    emit("filtered-assets", res.data);
+    console.log("Emitted filtered-assets event");
+  } catch (err) {
+    console.error("Error fetching filtered data:", err);
+  }
+}
 
-    // Road Crossing
-    SelectedRoadCrossingType: SelectedRoadCrossingType.value,
-    isRoadSkew: isRoadSkew.value,
-
-    // Drainage
-    SelectedDrainageType: SelectedDrainageType.value,
-    SelectedBreastwallType: SelectedBreastwallType.value,
-    SelectedDrainageSide: SelectedDrainageSide.value,
-    isDrainFoothpath: isDrainFoothpath.value,
-    isDrainChoked: isDrainChoked.value,
-    isDrainInsideRoadCrossing: isDrainInsideRoadCrossing.value,
-
-    // Retaining Wall
-    SelectedRetainingWallType: SelectedRetainingWallType.value,
-    SelectedRetainingWallSide: SelectedRetainingWallSide.value,
-    isRetainingWallParapet: isRetainingWallParapet.value,
-
-    // Dyke and Curb Stone
-    SelectedDykeandCurbStoneType: SelectedDykeandCurbStoneType.value,
-    SelectedDykeandCurbStoneSide: SelectedDykeandCurbStoneSide.value,
-
-    // Guard Rail
-    SelectedGuardrailType: SelectedGuardrailType.value,
-    SelectedGuardrailSide: SelectedGuardrailSide.value,
-
-    // Tunnel
-    SelectedTunnelType: SelectedTunnelType.value,
-    SelectedTunnelShape: SelectedTunnelShape.value,
-    SelectedTunnelLiningType: SelectedTunnelLiningType.value,
-    SelectedTunnelPortalType: SelectedTunnelPortalType.value,
-    TunnelTubes: TunnelTubes.value,
-  };
-
-  console.log("Sending filters:", payload);
-  console.log("Filters applied:");
-  showAssets.value = false; // Hide the filter popup after applying filters
-};
 </script>
 
 <style scoped>
@@ -1224,6 +1285,7 @@ const FilterRoadData = () => {
   cursor: pointer;
 }
 .popup {
+  
   position: absolute;
   top: 3rem;
   left: 5rem;
@@ -1231,12 +1293,15 @@ const FilterRoadData = () => {
   border: 4px solid #ccc;
   border-radius: 8px;
   padding: 10px 15px;
-  height: 38rem; /* Set a fixed height */
+  /* Set a fixed height */
   overflow-y: auto; /* Enable vertical scrolling */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   z-index: 1100;
   width: 17rem;
   padding: 3px;
+}
+.popup div{
+  
 }
 .popup ul {
   list-style: none;
@@ -1244,6 +1309,7 @@ const FilterRoadData = () => {
   margin: 0;
 }
 .popup li {
+
   padding: 8px 0;
   cursor: pointer;
   border-bottom: 1px solid #eee;
@@ -1251,8 +1317,30 @@ const FilterRoadData = () => {
 .popup li:last-child {
   border-bottom: none;
 }
-.list-container {
-  max-height: 150px;
-  overflow-y: auto;
+
+.filter-sidebar {
+  max-height: 60vh;        /* Limits overall sidebar height */
+  overflow-y: auto;        /* Enables scrolling if content exceeds height */
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  width: 300px;            /* Or your preferred width */
 }
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 25px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: red;
+}
+
 </style>

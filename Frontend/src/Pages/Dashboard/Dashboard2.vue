@@ -214,7 +214,7 @@ const loadGoogleMapsApi = () => {
       resolve();
     } else {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=`;
+    
       script.async = true;
       script.onload = resolve;
       document.head.appendChild(script);
@@ -250,24 +250,37 @@ onMounted(async () => {
   });
 
   // Sync OL → Google
-  map.on("moveend", () => {
-    const center = toLonLat(map.getView().getCenter());
-    const zoom = map.getView().getZoom();
-    googleMap.setCenter({ lat: center[1], lng: center[0] });
-    googleMap.setZoom(Math.round(zoom));
-  });
+ let syncingToGoogle = false;
+let syncingToOl = false;
 
-  // Sync Google → OL
-  googleMap.addListener("center_changed", () => {
-    const center = googleMap.getCenter();
-    const coords = fromLonLat([center.lng(), center.lat()]);
-    map.getView().setCenter(coords);
-  });
+// OL → Google
+map.on("moveend", () => {
+  if (syncingToOl) return;
+  syncingToGoogle = true;
+  const center = toLonLat(map.getView().getCenter());
+  const zoom = map.getView().getZoom();
+  googleMap.setCenter({ lat: center[1], lng: center[0] });
+  googleMap.setZoom(Math.round(zoom));
+  syncingToGoogle = false;
+});
 
-  googleMap.addListener("zoom_changed", () => {
-    const zoom = googleMap.getZoom();
-    map.getView().setZoom(zoom);
-  });
+// Google → OL
+googleMap.addListener("center_changed", () => {
+  if (syncingToGoogle) return;
+  syncingToOl = true;
+  const center = googleMap.getCenter();
+  const coords = fromLonLat([center.lng(), center.lat()]);
+  map.getView().setCenter(coords);
+  syncingToOl = false;
+});
+
+googleMap.addListener("zoom_changed", () => {
+  if (syncingToGoogle) return;
+  syncingToOl = true;
+  const zoom = googleMap.getZoom();
+  map.getView().setZoom(zoom);
+  syncingToOl = false;
+});
    const features = value.map((item) => {
     const coords = item.coordinates.map((lonLat) => fromLonLat(lonLat));
     console.log("Coordinates for road:", item.roadname, coords);

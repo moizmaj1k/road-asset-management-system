@@ -25,10 +25,19 @@ const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 
-const handleSignup = () => {
+const handleSignup = async () => {
   if (password.value !== confirmPassword.value) {
     alert('Passwords do not match!');
     return;
+  }
+  try{
+    const response =await axios.post("http://localhost:8000/api/auth/login/", {
+      email: email.value,
+      password: password.value,
+    });
+  }
+  catch (error) {
+    console.error('Error during signup:', error);
   }
   console.log('Signing up with:', name.value, email.value, password.value);
   // Add actual signup logic here
